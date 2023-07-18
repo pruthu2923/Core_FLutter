@@ -13,6 +13,7 @@ class _ContactInfoPageState extends State<ContactInfoPage> {
   bool isselected = true;
   int numbers = 0;
   bool visible = false;
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +95,7 @@ class _ContactInfoPageState extends State<ContactInfoPage> {
                         ),
                         onTap: () {
                           setState(
-                            () {
+                                () {
                               isselected = true;
                               numbers = 0;
                             },
@@ -125,7 +126,7 @@ class _ContactInfoPageState extends State<ContactInfoPage> {
                         ),
                         onTap: () {
                           setState(
-                            () {
+                                () {
                               isselected = false;
                               numbers = 1;
                             },
@@ -139,276 +140,325 @@ class _ContactInfoPageState extends State<ContactInfoPage> {
             ),
           ),
           IndexedStack(
-            index: numbers,
-            children: [
-              // contact page
-              Padding(
-                // Name
-                padding: const EdgeInsets.all(15),
-                child: Container(
-                  width: double.infinity,
-                  // height: 30,
-                  decoration: BoxDecoration(
-                    color: MyBg,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                  ),
-                  child: Form(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: TextFormField(
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "Enter Your Name",
-                              labelText: "Name",
-                              hintStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              focusColor: Colors.white,
-                              prefixIconColor: Colors.white,
-                              prefixIcon: const Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Icon(Icons.person),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ),
-                        ),
-                        // Email
-                        Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                            start: 15,
-                            end: 15,
-                            bottom: 19,
-                          ),
-                          child: TextFormField(
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "Enter Your Email",
-                              labelText: "Email",
-                              hintStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              prefixIconColor: Colors.white,
-                              prefixIcon: const Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Icon(Icons.email_outlined),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                        ),
-                        // Address
-                        Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                            start: 15,
-                            end: 15,
-                            bottom: 19,
-                          ),
-                          child: TextFormField(
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "ex. 123 , areaname , city - pincode",
-                              labelText: "Location",
-                              hintStyle: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 0.3)
-                              ),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              prefixIconColor: Colors.white,
-                              prefixIcon: const Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Icon(Icons.location_on_outlined),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                        ),
-                        // Password
-                        Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                            start: 15,
-                            end: 15,
-                            bottom: 19,
-                          ),
-                          child: TextFormField(
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "ex. abc@12ABC\$ ",
-                              labelText: "Password",
-                              hintStyle: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 0.3),
-                              ),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                              prefixIconColor: Colors.white,
-                              prefixIcon: const Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Icon(Icons.security_outlined),
-                              ),
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: IconButton(
-                                  color: Colors.white,
-                                  onPressed: () {
-                                    setState(() {
-                                      visible = !visible;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    (visible == false)
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                  ),
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                color: (visible==false)?Colors.greenAccent : Colors.redAccent ,
-                                    width: (visible==false) ? 1: 3,
-                              ),
-                              borderRadius: BorderRadius.circular(30),
-                              ),
-                              // enabledBorder: UnderlineInputBorder(
-                              //   borderSide: BorderSide(
-                              //     color: Colors.white,
-                              //   ),
-                              // ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: (visible==false) ? Colors.white : Colors.redAccent,
-                                width: (visible==false) ? 1: 3,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              InkWell(
-                                child: Container(
-                                  width: 90,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(30),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Back",
-                                      style: TextStyle(
-                                        color: MyBg,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              SizedBox(
-                                width: 60,
-                              ),
-                              Container(
-                                width: 90,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(40))),
-                                child: Center(
-                                  child: Text(
-                                    "Submit",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 60,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+              index: numbers,
+              children: [
+          // contact page
+          Padding(
+          // Name
+          padding: const EdgeInsets.all(15),
+          child: Container(
+            width: double.infinity,
+            // height: 30,
+            decoration: BoxDecoration(
+              color: MyBg,
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
               ),
-              // photo page
+            ),
+            child: Form(
+              key: formkey,
+              child: Column(
+                  children: [
               Padding(
-                padding: const EdgeInsets.all(16),
-                child: Container(
-                  width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              child: TextFormField(
+                keyboardType: TextInputType.name,
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    return "Please Enter The Name";
+                  }
+                  else {
+                    return null;
+                  }
+                },
+                style: TextStyle(
                   color: Colors.white,
-                  height: 350,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(200)),
-                          color: Colors.yellow,
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "Add Photo",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                ),
+                decoration: InputDecoration(
+                  hintText: "Enter Your Name",
+                  labelText: "Name",
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  focusColor: Colors.white,
+                  prefixIconColor: Colors.white,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Icon(Icons.person),
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      )),
+                ),
+              ),
+            ),
+            // Email
+            Padding(
+              padding: const EdgeInsetsDirectional.only(
+                start: 15,
+                end: 15,
+                bottom: 19,
+              ),
+              child: TextFormField(
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    return "Enter Valid Email";
+                  }
+                  else {
+                    return null;
+                  }
+                },
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                decoration: InputDecoration(
+                  hintText: "Enter Your Email",
+                  labelText: "Email",
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  prefixIconColor: Colors.white,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Icon(Icons.email_outlined),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
                   ),
                 ),
               ),
-            ],
+            ),
+            // Address
+            Padding(
+              padding: const EdgeInsetsDirectional.only(
+                start: 15,
+                end: 15,
+                bottom: 19,
+              ),
+              child: TextFormField(
+                onFieldSubmitted: (val) {
+                  bool validated = formkey.currentState!.validate();
+                  setState(() {
+                    if (validated) {
+                      formkey.currentState!.save();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Submitted Successfully"),
+                          backgroundColor: Colors.green,
+
+                        ),
+                      );
+                    }
+                  });
+                },
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    return "Enter The Address";
+                  }
+                  else {
+                    return null;
+                  }
+                },
+              style: TextStyle(
+              color: Colors.white,
+              ),
+              decoration: InputDecoration(
+                hintText: "ex. 123 , areaname , city - pincode",
+                labelText: "Location",
+                hintStyle: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 0.3)
+                ),
+                labelStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                prefixIconColor: Colors.white,
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Icon(Icons.location_on_outlined),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+            ),
           ),
+          // Password
+          Padding(
+            padding: const EdgeInsetsDirectional.only(
+              start: 15,
+              end: 15,
+              bottom: 19,
+            ),
+            // child: TextFormField(
+            //   obscureText: !visible,
+            //   obscuringCharacter: "*",
+            //   style: TextStyle(
+            //     color: Colors.white,
+            //   ),
+            //   decoration: InputDecoration(
+            //     hintText: "ex. abc@12ABC\$ ",
+            //     labelText: "Password",
+            //     hintStyle: TextStyle(
+            //       color: Color.fromRGBO(255, 255, 255, 0.3),
+            //     ),
+            //     labelStyle: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //     prefixIconColor: Colors.white,
+            //     prefixIcon: const Padding(
+            //       padding: EdgeInsets.all(15),
+            //       child: Icon(Icons.security_outlined),
+            //     ),
+            //     suffixIcon: Padding(
+            //       padding: const EdgeInsets.all(12),
+            //       child: IconButton(
+            //         color: Colors.white,
+            //         onPressed: () {
+            //           setState(() {
+            //             visible = !visible;
+            //           });
+            //         },
+            //         icon: Icon(
+            //           (visible == false)
+            //               ? Icons.visibility_off
+            //               : Icons.visibility,
+            //         ),
+            //       ),
+            //     ),
+            //     focusedBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(
+            //       color: (visible==false)?Colors.greenAccent : Colors.redAccent ,
+            //           width: (visible==false) ? 1: 3,
+            //     ),
+            //     borderRadius: BorderRadius.circular(30),
+            //     ),
+            //     // enabledBorder: UnderlineInputBorder(
+            //     //   borderSide: BorderSide(
+            //     //     color: Colors.white,
+            //     //   ),
+            //     // ),
+            //     enabledBorder: OutlineInputBorder(
+            //       borderSide: BorderSide(
+            //         color: (visible==false) ? Colors.white : Colors.redAccent,
+            //       width: (visible==false) ? 1: 3,
+            //       ),
+            //       borderRadius: BorderRadius.circular(12),
+            //     ),
+            //   ),
+            // ),
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(16),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       InkWell(
+          //         child: Container(
+          //           width: 90,
+          //           height: 40,
+          //           decoration: BoxDecoration(
+          //             color: Colors.white,
+          //             borderRadius: BorderRadius.all(
+          //               Radius.circular(30),
+          //             ),
+          //           ),
+          //           child: Center(
+          //             child: Text(
+          //               "Back",
+          //               style: TextStyle(
+          //                 color: MyBg,
+          //                 fontWeight: FontWeight.bold,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         onTap: () {
+          //           Navigator.of(context).pop();
+          //         },
+          //       ),
+          //       SizedBox(
+          //         width: 60,
+          //       ),
+          //       InkWell(
+          //         onTap: (){
+          //           if(formkey.currentState!.validate()){
+          //             SnackBar(content: Text("Submitted Successfully"));
+          //           }
+          //         },
+          //         child: Container(
+          //           width: 90,
+          //           height: 40,
+          //           decoration: BoxDecoration(
+          //               color: Colors.white,
+          //               borderRadius:
+          //                   BorderRadius.all(Radius.circular(40))),
+          //           child: Center(
+          //             child: Text(
+          //               "Submit",
+          //               style: TextStyle(
+          //                 color: Colors.red,
+          //                 fontWeight: FontWeight.bold,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       SizedBox(
+          //         height: 60,
+          //       ),
+          //     ],
+          //   ),
+          // )
         ],
       ),
-      backgroundColor: Colors.grey.shade200,
+    ),
+    ),
+    ),
+    // photo page
+    Padding(
+    padding: const EdgeInsets.all(16),
+    child: Container(
+    width: double.infinity,
+    color: Colors.white,
+    height: 350,
+    child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Center(
+    child: Container(
+    width: 150,
+    height: 150,
+    decoration: const BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(200)),
+    color: Colors.yellow,
+    ),
+    child: const Center(
+    child: Text(
+    "Add Photo",
+    style: TextStyle(
+    color: Colors.black,
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    ),
+    ),
+    ),
+    ),
+    ),
+    ),
+    ],
+    ),
+    ],
+    ),
+    backgroundColor: Colors.grey.shade200,
     );
   }
 }
