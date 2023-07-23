@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:pr_resume/utils/backbutton.dart';
@@ -7,14 +6,15 @@ import 'package:pr_resume/utils/myroutes.dart';
 
 class ResumeWorkSpace extends StatefulWidget {
   const ResumeWorkSpace({super.key});
-
   @override
   State<ResumeWorkSpace> createState() => _ResumeWorkSpaceState();
 }
-
 class _ResumeWorkSpaceState extends State<ResumeWorkSpace> {
   @override
   Widget build(BuildContext context) {
+    Size s = MediaQuery.of(context).size;
+    double h = s.height;
+    double w = s.width;
     return Scaffold(
       body: Column(
         children: [
