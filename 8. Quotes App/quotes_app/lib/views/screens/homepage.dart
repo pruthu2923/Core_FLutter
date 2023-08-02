@@ -5,6 +5,7 @@ import 'package:quotes_app/utils/colors.dart';
 import 'package:quotes_app/utils/quotes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +20,8 @@ class _HomePageState extends State<HomePage> {
   String CategorySelection = "Art";
   bool quotenonvisibility = true;
   bool fabvisibility = false;
+  bool listorgrid = true;
+
   // int counter = 1;
 
   @override
@@ -37,8 +40,14 @@ class _HomePageState extends State<HomePage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.grid_view_rounded,
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  listorgrid = !listorgrid;
+                });
+              },
+              icon: Icon(
+                  (listorgrid) ? Icons.grid_view_rounded : Icons.filter_list),
             ),
           )
         ],
@@ -225,23 +234,68 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.all(10),
         child: Stack(
           children: [
-            ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) =>
-                  (allQuotes[index].category == Universal.CategoryName)
-                      ? Card(
-                          child: ListTile(
-                            leading: Icon(CupertinoIcons.profile_circled),
-                            title: Text(allQuotes[index].quote),
-                            subtitle: Text(allQuotes[index].category),
-                            isThreeLine: true,
-                            trailing: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.arrow_forward_ios),
+            SingleChildScrollView(
+              child: Visibility(
+                visible: listorgrid == false,
+                child: StaggeredGrid.count(
+                  crossAxisCount: 2,
+                  children: List.generate(
+                    allQuotes.length,
+                    (index) => CategorySelection == allQuotes[index].category
+                        ? StaggeredGridTile.count(
+                            crossAxisCellCount: 1,
+                            mainAxisCellCount: index % 3 == 0 ? 1.5 : 1,
+                            child: Card(
+                              color: Colors.primaries[index % 18],
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      allQuotes[index].quote,
+                                      maxLines: 4,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.5),
+                                    ),
+                                    Spacer(),
+                                    Text(
+                                      "- ${allQuotes[index].author}",
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        )
-                      : Container(),
+                          )
+                        : Container(),
+                  ),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: listorgrid,
+              child: ListView.builder(
+                itemCount: allQuotes.length,
+                itemBuilder: (context, index) =>
+                    (allQuotes[index].category == Universal.CategoryName)
+                        ? Card(
+                            child: ListTile(
+                              leading: Icon(CupertinoIcons.profile_circled),
+                              title: Text(allQuotes[index].quote,maxLines: 3,overflow: TextOverflow.ellipsis),
+                              subtitle: Text(allQuotes[index].category),
+                              isThreeLine: true,
+                              trailing: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.arrow_forward_ios),
+                              ),
+                            ),
+                          )
+                        : Container(),
+              ),
             ),
             Visibility(
               visible: quotenonvisibility,
