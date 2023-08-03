@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quotes_app/utils/modal_quotes.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -18,28 +19,28 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    Quote getquote = ModalRoute.of(context)!.settings.arguments as Quote;
     Size s = MediaQuery.of(context).size;
     double w = s.width;
     double h = s.height;
-    // Quote getquote = ModalRoute.of(context)!.settings.arguments.toString() as Quote;
-    // String quote = getquote.toString();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Quote's Detail Page"),
+        title: const Text("Quote's Detail Page"),
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(Icons.arrow_back_ios_new_outlined)),
+            icon: const Icon(Icons.arrow_back_ios_new_outlined)),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: Container(
+                padding: EdgeInsets.all(20),
                 height: h * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -49,9 +50,30 @@ class _DetailPageState extends State<DetailPage> {
                       BoxShadow(
                         offset: Offset(5, 5),
                         blurRadius: 4,
-                      )
+                      ),
                     ]),
-                // child: Text(quote),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      getquote.quote,
+                      style: TextStyle(
+                        color: (selectedcolor == null) ? null : selectedcolor,
+                        fontSize: fontsize.toDouble(),
+                        fontWeight: FontWeight.values[slider.toInt()],
+                      ),
+                    ),
+                    Text(
+                      getquote.author,
+                      style: TextStyle(
+                        color: (selectedcolor == null) ? null : selectedcolor,
+                        fontSize: fontsize.toDouble(),
+                        fontWeight: FontWeight.values[slider.toInt()],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -81,7 +103,7 @@ class _DetailPageState extends State<DetailPage> {
                           InkSparkle.constantTurbulenceSeedSplashFactory,
                     ),
                     child: Text(
-                      (propertyvisibility == true) ? "Done" : "Edit",
+                      (propertyvisibility == true) ? "Hide" : "Show",
                       style: TextStyle(
                           color: Colors.redAccent,
                           fontSize: 20,
@@ -159,15 +181,18 @@ class _DetailPageState extends State<DetailPage> {
                         Expanded(
                           child: Slider(
                             min: 0,
-                            max: 9,
+                            max: 8,
                             divisions: 9,
                             value: slider,
                             onChanged: (val) {
-                              setState(() {
-                                slider = val;
-                              });
+                              setState(
+                                () {
+                                  slider = val;
+                                },
+                              );
                             },
-                            activeColor: Colors.primaries[slider.toInt()%18+8],
+                            activeColor:
+                                Colors.primaries[slider.toInt() % 18 + 8],
                             inactiveColor: Colors.white,
                             thumbColor: Colors.white,
                             label: "Font Boldness",
@@ -203,7 +228,7 @@ class _DetailPageState extends State<DetailPage> {
                                 fontsize = val.toInt();
                               });
                             },
-                            activeColor: Colors.primaries[(fontsize+5)%18],
+                            activeColor: Colors.primaries[(fontsize + 5) % 18],
                             inactiveColor: Colors.white,
                             thumbColor: Colors.black,
                             label: "Font Size",
