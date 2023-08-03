@@ -6,6 +6,7 @@ import 'package:quotes_app/utils/quotes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:quotes_app/utils/routes_utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -245,28 +246,33 @@ class _HomePageState extends State<HomePage> {
                         ? StaggeredGridTile.count(
                             crossAxisCellCount: 1,
                             mainAxisCellCount: index % 3 == 0 ? 1.5 : 1,
-                            child: Card(
-                              color: Colors.primaries[index % 18],
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      allQuotes[index].quote,
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "- ${allQuotes[index].author}",
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.of(context).pushNamed(MyRoutes.detailpage,arguments: allQuotes[index]);
+                              },
+                              child: Card(
+                                color: Colors.primaries[index % 18],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        allQuotes[index].quote,
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 0.5),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        "- ${allQuotes[index].author}",
+                                        style: TextStyle(color: Colors.white),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -289,7 +295,9 @@ class _HomePageState extends State<HomePage> {
                               subtitle: Text(allQuotes[index].category),
                               isThreeLine: true,
                               trailing: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(MyRoutes.detailpage,arguments: allQuotes[index]);
+                                },
                                 icon: Icon(Icons.arrow_forward_ios),
                               ),
                             ),
