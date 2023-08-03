@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quotes_app/utils/frames/1st.dart';
 import 'package:quotes_app/utils/routes_utils.dart';
 import 'package:quotes_app/views/screens/homepage.dart';
 import 'package:quotes_app/views/screens/quote_detail_page.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         MyRoutes.homepage: (context) => HomePage(),
-        MyRoutes.detailpage: (context) => DetailPage()
+        MyRoutes.detailpage: (context) => DetailPage(),
+        MyRoutes.framepage: (context) => frame1()
       },
     );
   }
