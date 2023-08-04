@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(
                   (listorgrid) ? Icons.grid_view_rounded : Icons.filter_list),
             ),
-          )
+          ),
         ],
         // centerTitle: true,
       ),
@@ -247,8 +247,10 @@ class _HomePageState extends State<HomePage> {
                             crossAxisCellCount: 1,
                             mainAxisCellCount: index % 3 == 0 ? 1.5 : 1,
                             child: GestureDetector(
-                              onTap: (){
-                                Navigator.of(context).pushNamed(MyRoutes.detailpage,arguments: allQuotes[index]);
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    MyRoutes.detailpage,
+                                    arguments: allQuotes[index]);
                               },
                               child: Card(
                                 color: Colors.primaries[index % 18],
@@ -291,12 +293,15 @@ class _HomePageState extends State<HomePage> {
                         ? Card(
                             child: ListTile(
                               leading: Icon(CupertinoIcons.profile_circled),
-                              title: Text(allQuotes[index].quote,maxLines: 3,overflow: TextOverflow.ellipsis),
+                              title: Text(allQuotes[index].quote,
+                                  maxLines: 3, overflow: TextOverflow.ellipsis),
                               subtitle: Text(allQuotes[index].category),
                               isThreeLine: true,
                               trailing: IconButton(
                                 onPressed: () {
-                                  Navigator.of(context).pushNamed(MyRoutes.detailpage,arguments: allQuotes[index]);
+                                  Navigator.of(context).pushNamed(
+                                      MyRoutes.detailpage,
+                                      arguments: allQuotes[index]);
                                 },
                                 icon: Icon(Icons.arrow_forward_ios),
                               ),
