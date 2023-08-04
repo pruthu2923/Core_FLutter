@@ -28,10 +28,16 @@ class _DetailPageState extends State<DetailPage> {
   bool frameno5 = false;
   bool frameno6 = false;
   bool frameno7 = false;
+  bool borderproperty = false;
+  String? BorderVisibility;
+  bool borderedit = false;
+  int thick = 1;
+  bool allprop = false;
   // double radius;
   double slider = 1;
   int fontsize = 14;
   List<Color> colorlist = [Colors.white, Colors.black, ...Colors.primaries];
+
   @override
   Widget build(BuildContext context) {
     Quote getquote = ModalRoute.of(context)!.settings.arguments as Quote;
@@ -69,15 +75,20 @@ class _DetailPageState extends State<DetailPage> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
-                       color: framecolor ,
+                      color: framecolor,
+                      width: thick.toDouble(),
                     ),
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(topend),topLeft: Radius.circular(topstart),bottomLeft: Radius.circular(bottomstart),bottomRight: Radius.circular(bottomend)),
-                    // boxShadow: [
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(topend),
+                        topLeft: Radius.circular(topstart),
+                        bottomLeft: Radius.circular(bottomstart),
+                        bottomRight: Radius.circular(bottomend)),
+                    //   boxShadow: [
                     //   BoxShadow(
-                    //     offset: Offset(5, 5),
+                    //     offset: Offset(1, 1),
                     //     blurRadius: 4,
                     //   ),
-                    // ],
+                    // ]
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,9 +105,12 @@ class _DetailPageState extends State<DetailPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("- ${getquote.author}",
+                          Text(
+                            "- ${getquote.author}",
                             style: TextStyle(
-                              color: (selectedcolor == null) ? null : selectedcolor,
+                              color: (selectedcolor == null)
+                                  ? null
+                                  : selectedcolor,
                               fontSize: fontsize.toDouble(),
                               fontWeight: FontWeight.values[slider.toInt()],
                             ),
@@ -256,8 +270,8 @@ class _DetailPageState extends State<DetailPage> {
                                 child: Slider(
                                   // focusNode: FocusNode(debugLabel: "done"),
                                   min: 10,
-                                  max: 15,
-                                  divisions: 5,
+                                  max: 16,
+                                  divisions: 6,
                                   value: fontsize.toDouble(),
                                   onChanged: (val) {
                                     setState(() {
@@ -283,274 +297,448 @@ class _DetailPageState extends State<DetailPage> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20),
                               ),
-                              IconButton(onPressed: (){
-                                setState(() {
-                                  frameclrvisibility = true;
-                                });
-                              }, icon: Icon(Icons.color_lens_outlined),)
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    allprop = true;
+                                  });
+                                },
+                                icon: Icon(Icons.edit),
+                              ),
                             ],
                           ),
                           Visibility(
-                              visible: frameclrvisibility,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
+                            visible: allprop,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          disableframe = true;
-                                          framecolor = Colors.black;
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            border: (disableframe==true) ? Border.all(width: 2) : null,
-                                            borderRadius: BorderRadius.circular(30)
-                                          ),
-                                          child: Icon(Icons.stop_circle_outlined,size: 30,)),
+                                    Text("Edit Border",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                                    IconButton(onPressed: (){
+                                      setState(() {
+                                        borderedit = !borderedit;
+                                      });
+                                    }, icon: Icon((borderedit == false) ? Icons.expand_more: Icons.expand_less ))
+                                  ],
+                                ),
+                                Visibility(
+                                  visible: borderedit,
+                                  child: Column(
+                                    children: [
+                                      RadioListTile(
+                                          controlAffinity: ListTileControlAffinity.leading,
+                                          title: Text("Yes"),
+                                          subtitle: Text("Editable Properties"),
+                                          value: "Yes",
+                                          groupValue: BorderVisibility,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              BorderVisibility = val;
+                                            });
+                                          }),
+                                      RadioListTile(
+                                          controlAffinity: ListTileControlAffinity.leading,
+                                          title: Text("No"),
+                                          subtitle: Text("No such Properties"),
+                                          value: "No",
+                                          groupValue: BorderVisibility,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              BorderVisibility = val;
+                                            });
+                                          }),
+                                      Visibility(
+                                        visible: BorderVisibility == "Yes",
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Border Properties",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 20),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      borderproperty = !borderproperty;
+                                                    });
+                                                  },
+                                                  icon: Icon((borderproperty) ? Icons.visibility_off : Icons.visibility),
+                                                )
+                                              ],
+                                            ),
+                                            Visibility(
+                                              visible: borderproperty,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Choose Colour",style: TextStyle(fontSize: 18),),
+                                                  SizedBox(height: h*0.01,),
+                                                  SingleChildScrollView(
+                                                    scrollDirection: Axis.horizontal,
+                                                    child: Row(
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              disableframe = true;
+                                                              framecolor = Colors.black;
+                                                            });
+                                                          },
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(5.0),
+                                                            child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    border: (disableframe == true)
+                                                                        ? Border.all(width: 2)
+                                                                        : null,
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(30)),
+                                                                child: Icon(
+                                                                  Icons.stop_circle_outlined,
+                                                                  size: 30,
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        ...colorlist.map(
+                                                              (e) => GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                disableframe = false;
+                                                                framecolor = e;
+                                                              });
+                                                            },
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    border: (framecolor == e &&
+                                                                        disableframe == false)
+                                                                        ? Border.all(
+                                                                        width: 2,
+                                                                        color: (e == Colors.black)
+                                                                            ? Colors.redAccent
+                                                                            : Colors.black)
+                                                                        : null,
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(30)),
+                                                                child: Container(
+                                                                  height: h * 0.03,
+                                                                  width: w * 0.06,
+                                                                  decoration: BoxDecoration(
+                                                                    color: e,
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(40),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: h*0.01,),
+                                                  Text("Border Thickness",style: TextStyle(fontSize: 18),),
+                                                  SizedBox(height: h*0.01,),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        padding: EdgeInsets.all(10),
+                                                        child: Text(thick.toString()),
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          IconButton(onPressed: (){
+                                                            setState(() {
+                                                              if(thick<5)
+                                                              {
+                                                                thick++;
+                                                              }
+                                                              else{
+                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Maximum Limit Reached"),duration: Duration(seconds: 1),),);
+                                                              }
+                                                            });
+                                                          }, icon: Icon(Icons.add)),
+                                                          IconButton(onPressed: (){
+                                                            setState(() {
+                                                              if(thick>1)
+                                                              {
+                                                                thick--;
+                                                              }
+                                                              else{
+                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Minimum Limit Reached"),duration: Duration(seconds: 1),),);
+                                                              }
+                                                            });
+                                                          }, icon: Icon(Icons.remove)),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    ...colorlist.map((e) => GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          disableframe = false;
-                                          framecolor = e;
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            border: (framecolor == e) ? Border.all(width: 2) : null,
-                                            borderRadius: BorderRadius.circular(30)
-                                          ),
+                                    ],
+                                  ),
+                                ),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            topstart = 60;
+                                            topend = 60;
+                                            bottomstart = 0;
+                                            bottomend = 0;
+                                            frameno1 = true;
+                                            frameno2 = frameno7 = frameno6 =
+                                                frameno5 =
+                                                frameno4 = frameno3 = false;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            height:  h * 0.03,
-                                            width:  w * 0.06,
+                                            child: Center(
+                                                child: (frameno1 == true)
+                                                    ? Icon(Icons.done)
+                                                    : null),
+                                            height: h * 0.1,
+                                            width: w * 0.2,
                                             decoration: BoxDecoration(
-                                            color: e,
-                                              borderRadius: BorderRadius.circular(40),
+                                              color: Colors.white,
+                                              borderRadius:
+                                              BorderRadiusDirectional.only(
+                                                  topEnd: Radius.circular(20),
+                                                  topStart: Radius.circular(20)),
+                                              border: Border.all(
+                                                  color: Colors.black, width: 2),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ))
-                                  ],
-                                ),
-                              ),),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      topstart = 60;
-                                      topend = 60;
-                                      bottomstart = 0;
-                                      bottomend = 0;
-                                      frameno1 = true;
-                                      frameno2 = frameno7 = frameno6 = frameno5 = frameno4 = frameno3 = false;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Center(child: (frameno1 == true) ? Icon(Icons.done): null),
-                                      height: h * 0.1,
-                                      width: w * 0.2,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                        BorderRadiusDirectional.only(
-                                            topEnd: Radius.circular(20),
-                                            topStart: Radius.circular(20)),
-                                        border: Border.all(
-                                            color: Colors.black, width: 2),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      topstart = 60;
-                                      topend = 60;
-                                      bottomstart = 60;
-                                      bottomend = 60;
-                                      frameno2 = true;
-                                     frameno1 = frameno3 = frameno4 = frameno5 = frameno6 = frameno7 = false;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Center(child: (frameno2 == true) ? Icon(Icons.done): null),
-                                      height: h * 0.1,
-                                      width: w * 0.2,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          border: Border.all(
-                                              color: Colors.black, width: 2)),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      topstart = 0;
-                                      topend = 0;
-                                      bottomstart = 60;
-                                      bottomend = 60;
-                                      frameno3 = true;
-                                      frameno1 = frameno2 = frameno4 = frameno5 = frameno6 = frameno7 = false;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Center(child: (frameno3 == true) ? Icon(Icons.done): null),
-                                      height: h * 0.1,
-                                      width: w * 0.2,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                        BorderRadiusDirectional.only(
-                                            bottomEnd: Radius.circular(20),
-                                            bottomStart:
-                                            Radius.circular(20)),
-                                        border: Border.all(
-                                            color: Colors.black, width: 2),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      topstart = 60;
-                                      topend = 0;
-                                      bottomstart = 0;
-                                      bottomend = 60;
-                                      frameno4 = true;
-                                      frameno1 = frameno3 = frameno2 = frameno5 = frameno6 = frameno7 = false;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Center(child: (frameno4 == true) ? Icon(Icons.done): null),
-                                      height: h * 0.1,
-                                      width: w * 0.2,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadiusDirectional.only(
-                                          topStart: Radius.circular(20),
-                                          bottomEnd: Radius.circular(20),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            topstart = 60;
+                                            topend = 60;
+                                            bottomstart = 60;
+                                            bottomend = 60;
+                                            frameno2 = true;
+                                            frameno1 = frameno3 = frameno4 =
+                                                frameno5 =
+                                                frameno6 = frameno7 = false;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Center(
+                                                child: (frameno2 == true)
+                                                    ? Icon(Icons.done)
+                                                    : null),
+                                            height: h * 0.1,
+                                            width: w * 0.2,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                BorderRadius.circular(20),
+                                                border: Border.all(
+                                                    color: Colors.black, width: 2)),
+                                          ),
                                         ),
-                                        border: Border.all(
-                                            color: Colors.black, width: 2),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      topstart = 60;
-                                      topend = 0;
-                                      bottomstart = 60;
-                                      bottomend = 0;
-                                      frameno5 = true;
-                                      frameno1 = frameno3 = frameno4 = frameno2 = frameno6 = frameno7 = false;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Center(child: (frameno5 == true) ? Icon(Icons.done): null),
-                                      height: h * 0.1,
-                                      width: w * 0.2,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                        BorderRadiusDirectional.only(
-                                            bottomStart: Radius.circular(20),
-                                            topStart: Radius.circular(20)),
-                                        border: Border.all(
-                                            color: Colors.black, width: 2),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            topstart = 0;
+                                            topend = 0;
+                                            bottomstart = 60;
+                                            bottomend = 60;
+                                            frameno3 = true;
+                                            frameno1 = frameno2 = frameno4 =
+                                                frameno5 =
+                                                frameno6 = frameno7 = false;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Center(
+                                                child: (frameno3 == true)
+                                                    ? Icon(Icons.done)
+                                                    : null),
+                                            height: h * 0.1,
+                                            width: w * 0.2,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                              BorderRadiusDirectional.only(
+                                                  bottomEnd: Radius.circular(20),
+                                                  bottomStart:
+                                                  Radius.circular(20)),
+                                              border: Border.all(
+                                                  color: Colors.black, width: 2),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      topstart = 0;
-                                      topend = 60;
-                                      bottomstart = 60;
-                                      bottomend = 0;
-                                      frameno6 = true;
-                                      frameno1 = frameno3 = frameno4 = frameno5 = frameno2 = frameno7 = false;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Center(child: (frameno6 == true) ? Icon(Icons.done): null),
-                                      height: h * 0.1,
-                                      width: w * 0.2,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadiusDirectional.only(
-                                                bottomStart:
-                                                    Radius.circular(20),
-                                                topEnd: Radius.circular(20)),
-                                        border: Border.all(
-                                            color: Colors.black, width: 2),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            topstart = 60;
+                                            topend = 0;
+                                            bottomstart = 0;
+                                            bottomend = 60;
+                                            frameno4 = true;
+                                            frameno1 = frameno3 = frameno2 =
+                                                frameno5 =
+                                                frameno6 = frameno7 = false;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Center(
+                                                child: (frameno4 == true)
+                                                    ? Icon(Icons.done)
+                                                    : null),
+                                            height: h * 0.1,
+                                            width: w * 0.2,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                              BorderRadiusDirectional.only(
+                                                topStart: Radius.circular(20),
+                                                bottomEnd: Radius.circular(20),
+                                              ),
+                                              border: Border.all(
+                                                  color: Colors.black, width: 2),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      topstart = 0;
-                                      topend = 60;
-                                      bottomstart = 0;
-                                      bottomend = 60;
-                                      frameno7 = true;
-                                      frameno1 = frameno3 = frameno4 = frameno5 = frameno6 = frameno2 = false;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      child: Center(child: (frameno7 == true) ? Icon(Icons.done): null),
-                                      height: h * 0.1,
-                                      width: w * 0.2,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                        BorderRadiusDirectional.only(
-                                            topEnd: Radius.circular(20),
-                                            bottomEnd: Radius.circular(20)),
-                                        border: Border.all(
-                                            color: Colors.black, width: 2),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            topstart = 60;
+                                            topend = 0;
+                                            bottomstart = 60;
+                                            bottomend = 0;
+                                            frameno5 = true;
+                                            frameno1 = frameno3 = frameno4 =
+                                                frameno2 =
+                                                frameno6 = frameno7 = false;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Center(
+                                                child: (frameno5 == true)
+                                                    ? Icon(Icons.done)
+                                                    : null),
+                                            height: h * 0.1,
+                                            width: w * 0.2,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                              BorderRadiusDirectional.only(
+                                                  bottomStart:
+                                                  Radius.circular(20),
+                                                  topStart: Radius.circular(20)),
+                                              border: Border.all(
+                                                  color: Colors.black, width: 2),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            topstart = 0;
+                                            topend = 60;
+                                            bottomstart = 60;
+                                            bottomend = 0;
+                                            frameno6 = true;
+                                            frameno1 = frameno3 = frameno4 =
+                                                frameno5 =
+                                                frameno2 = frameno7 = false;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Center(
+                                                child: (frameno6 == true)
+                                                    ? Icon(Icons.done)
+                                                    : null),
+                                            height: h * 0.1,
+                                            width: w * 0.2,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                              BorderRadiusDirectional.only(
+                                                  bottomStart:
+                                                  Radius.circular(20),
+                                                  topEnd: Radius.circular(20)),
+                                              border: Border.all(
+                                                  color: Colors.black, width: 2),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            topstart = 0;
+                                            topend = 60;
+                                            bottomstart = 0;
+                                            bottomend = 60;
+                                            frameno7 = true;
+                                            frameno1 = frameno3 = frameno4 =
+                                                frameno5 =
+                                                frameno6 = frameno2 = false;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Center(
+                                                child: (frameno7 == true)
+                                                    ? Icon(Icons.done)
+                                                    : null),
+                                            height: h * 0.1,
+                                            width: w * 0.2,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                              BorderRadiusDirectional.only(
+                                                  topEnd: Radius.circular(20),
+                                                  bottomEnd: Radius.circular(20)),
+                                              border: Border.all(
+                                                  color: Colors.black, width: 2),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
