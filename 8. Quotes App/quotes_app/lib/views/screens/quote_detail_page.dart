@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quotes_app/utils/frames/1st.dart';
 import 'package:quotes_app/utils/modal_quotes.dart';
 import 'package:quotes_app/utils/routes_utils.dart';
@@ -149,10 +150,27 @@ class _DetailPageState extends State<DetailPage> {
               Column(
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            Clipboard.setData(ClipboardData(text: "${getquote.quote} \n\n I got This Quote From _____ Quote App"));
+                          });
+                        },
+                        icon: Icon(Icons.copy_all_outlined),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.ios_share),
+                      ),
+                    ],
+                  ),
+                  Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
+                        child: SelectableText(
                           "Quotes Properties",
                           style: TextStyle(
                             color: Colors.black,
