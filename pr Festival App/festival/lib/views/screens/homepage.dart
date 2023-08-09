@@ -32,7 +32,11 @@ class _HomePageState extends State<HomePage> {
     double w = s.width;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        flexibleSpace: Container(decoration: BoxDecoration(
+          image: DecorationImage(image: NetworkImage('https://previews.123rf.com/images/amonwipu1741/amonwipu17411810/amonwipu1741181000255/127292431-diwali-or-deepavali-the-festival-of-lights-india-with-gold-diya-patterned-and-crystals-on-paper.jpg'),fit: BoxFit.values[3]),
+          borderRadius: BorderRadiusDirectional.only(bottomStart: Radius.circular(80),bottomEnd: Radius.circular(80))
+        ) , ),
+        // centerTitle: true,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(80),
@@ -40,35 +44,45 @@ class _HomePageState extends State<HomePage> {
         bottom: PreferredSize(
             child: Padding(
               padding: const EdgeInsets.all(20),
-              child: Text(
-                (drawervisibility) ? countrySelection : "No Country Selected",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
+              // child: Text(
+              //   (drawervisibility) ? countrySelection : "No Country Selected",
+              //   style: TextStyle(
+              //       color: Colors.cyanAccent,
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 18),
+              // ),
             ),
             preferredSize: Size.fromHeight(100)),
-        title: Text(
-          "HomePage",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-        backgroundColor: MyBg,
-        foregroundColor: Colors.white,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  listorgrid = !listorgrid;
-                });
-              },
-              icon: Icon(
-                  (listorgrid) ? Icons.grid_view_rounded : Icons.filter_list),
+        title: Row(
+          children: [
+            SizedBox(
+              width: w*0.04,
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "HomePage",
+                style: TextStyle(color: Colors.white , fontWeight: FontWeight.bold, fontSize: 24),
+              ),
+            ),
+          ],
+        ),
+        // backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: IconButton(
+        //       onPressed: () {
+        //         setState(() {
+        //           listorgrid = !listorgrid;
+        //         });
+        //       },
+        //       icon: Icon(
+        //           (listorgrid) ? Icons.grid_view_rounded : Icons.filter_list),
+        //     ),
+        //   ),
+        // ],
         // centerTitle: true,
       ),
       drawer: Drawer(
@@ -284,19 +298,19 @@ class _HomePageState extends State<HomePage> {
                                         image: NetworkImage(
                                             '${allFestivals[index].image}'),
                                         fit: BoxFit.fill,
-                                        opacity: 0.8)),
+                                        opacity: 2)),
                                 padding: EdgeInsets.all(10),
                                 child: Center(
-                                  child: Text(
-                                    allFestivals[index].festival,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.deepOrange,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.5),
-                                  ),
+                                  // child: Text(
+                                  //   allFestivals[index].festival,
+                                  //   maxLines: 1,
+                                  //   overflow: TextOverflow.ellipsis,
+                                  //   style: TextStyle(
+                                  //       fontSize: 20,
+                                  //       color: Colors.deepOrange,
+                                  //       fontWeight: FontWeight.bold,
+                                  //       letterSpacing: 0.5),
+                                  // ),
                                 ),
                               ),
                             ),
