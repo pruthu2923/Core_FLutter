@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:festivals_app/utils/Universal.dart';
-// import 'package:festivals_app/utils/colors.dart';
-// import 'package:festivals_app/utils/festivals.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-// import 'package:festivals_app/utils/routes_utils.dart';
-
 import '../../utils/Universal.dart';
 import '../../utils/colors.dart';
-import '../../utils/quotes.dart';
+import '../../utils/festival_data.dart';
 import '../../utils/routes_utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,8 +40,15 @@ class _HomePageState extends State<HomePage> {
         bottom: PreferredSize(
             child: Padding(
               padding: const EdgeInsets.all(20),
-              child: Text((drawervisibility) ? countrySelection : "No Country Selected",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
-            ), preferredSize: Size.fromHeight(100)),
+              child: Text(
+                (drawervisibility) ? countrySelection : "No Country Selected",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+            ),
+            preferredSize: Size.fromHeight(100)),
         title: Text(
           "HomePage",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
@@ -112,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                                   source: ImageSource.camera);
                               if (file != null) {
                                 setState(() {
-                                  Universal.ProfileImage = File(file!.path);
+                                  Universal.profileImage = File(file!.path);
                                 });
                               }
                             },
@@ -123,9 +125,9 @@ class _HomePageState extends State<HomePage> {
                                 backgroundImage: NetworkImage(
                                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsloDZ5O0zSh9T5dPrHvIaWE7rIAGpBS43WQ&usqp=CAU'),
                                 foregroundImage:
-                                    (Universal.ProfileImage == null)
+                                    (Universal.profileImage == null)
                                         ? null
-                                        : FileImage(Universal.ProfileImage!),
+                                        : FileImage(Universal.profileImage!),
                                 radius: 35,
                               ),
                             ),
@@ -269,8 +271,8 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
                                         // spreadRadius: 2,
@@ -278,8 +280,11 @@ class _HomePageState extends State<HomePage> {
                                         offset: Offset(3, 3),
                                       )
                                     ],
-                                  image: DecorationImage(image: NetworkImage('${allFestivals[index].image}'),fit: BoxFit.fill,opacity: 0.8)
-                                ),
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            '${allFestivals[index].image}'),
+                                        fit: BoxFit.fill,
+                                        opacity: 0.8)),
                                 padding: EdgeInsets.all(10),
                                 child: Center(
                                   child: Text(
@@ -287,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 20,
+                                        fontSize: 20,
                                         color: Colors.deepOrange,
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 0.5),

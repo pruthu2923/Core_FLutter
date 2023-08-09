@@ -1,11 +1,15 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:quotes_app/utils/frames/1st.dart';
-import 'package:quotes_app/utils/modal_quotes.dart';
+import 'package:quotes_app/utils/modalpage.dart';
 import 'package:quotes_app/utils/routes_utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quotes_app/utils/variables.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:share_extend/share_extend.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -14,23 +18,21 @@ class DetailPage extends StatefulWidget {
   State<DetailPage> createState() => _DetailPageState();
 }
 
-
 class _DetailPageState extends State<DetailPage> {
-  
   // double radius;
   double slider = 1;
   int fontsize = 14;
   List<Color> colorlist = [Colors.white, Colors.black, ...Colors.primaries];
   GlobalKey _Key = GlobalKey();
-
-
   static String? BorderVisibility;
   static bool borderedit = false;
   static int thick = 1;
   static bool allprop = false;
+
   @override
   Widget build(BuildContext context) {
-    Festival getfestival = ModalRoute.of(context)!.settings.arguments as Festival;
+    Festival getfestival =
+        ModalRoute.of(context)!.settings.arguments as Festival;
     Size s = MediaQuery.of(context).size;
     double w = s.width;
     double h = s.height;
@@ -45,27 +47,31 @@ class _DetailPageState extends State<DetailPage> {
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {
-                variables. frameno2 = true;
-                variables.  frameno1 = false;
-                variables.  frameno7 = false;
-                variables.   frameno6 = false;
-                variables.   frameno5 = false;
-                variables.    frameno4 = false;
-                variables.   frameno3 = false;
-                variables.   disabledcolor = true;
-                variables.   selectedcolor = null;
-                slider = 1;
-                fontsize = 14;
-                variables.    thick = 1;
-                variables.   allprop = false;
-                variables.   framecolor = Colors.black;
-                variables.    BorderVisibility = "No";
-                variables.   topstart = 60;
-                variables.    topend = 60;
-                variables.   bottomstart = 60;
-                variables.   bottomend = 60;
-              });
+              setState(
+                () {
+                  {
+                    variables.frameno2 = true;
+                    variables.frameno1 = false;
+                    variables.frameno7 = false;
+                    variables.frameno6 = false;
+                    variables.frameno5 = false;
+                    variables.frameno4 = false;
+                    variables.frameno3 = false;
+                    variables.disabledcolor = true;
+                    variables.selectedcolor = null;
+                    slider = 1;
+                    fontsize = 14;
+                    variables.thick = 1;
+                    variables.allprop = false;
+                    variables.framecolor = Colors.black;
+                    variables.BorderVisibility = "No";
+                    variables.topstart = 60;
+                    variables.topend = 60;
+                    variables.bottomstart = 60;
+                    variables.bottomend = 60;
+                  }
+                },
+              );
             },
             icon: Icon(Icons.refresh_rounded),
           )
@@ -76,7 +82,6 @@ class _DetailPageState extends State<DetailPage> {
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
                 child: RepaintBoundary(
@@ -110,13 +115,15 @@ class _DetailPageState extends State<DetailPage> {
                         Text(
                           getfestival.festival,
                           style: TextStyle(
-                            color: (variables.selectedcolor == null) ? null : variables.selectedcolor,
+                            color: (variables.selectedcolor == null)
+                                ? null
+                                : variables.selectedcolor,
                             fontSize: fontsize.toDouble(),
                             fontWeight: FontWeight.values[slider.toInt()],
                           ),
                         ),
                         SizedBox(
-                          height: h*0.1,
+                          height: h * 0.1,
                         ),
                         Text(
                           "- ${getfestival.description}",
@@ -146,14 +153,31 @@ class _DetailPageState extends State<DetailPage> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            Clipboard.setData(ClipboardData(text: "${getfestival.festival} \n\n ${getfestival.description}I got This FestivalPostTexts From abc Festival App"));
+                            Clipboard.setData(ClipboardData(
+                                text:
+                                    "${getfestival.festival} \n\n ${getfestival.description}I got This FestivalPostTexts From abc Festival App"));
                           });
                         },
                         icon: Icon(Icons.copy_all_outlined),
                       ),
                       IconButton(
-                        onPressed: () {
-                          
+                        onPressed: () async {
+                          final boundary = _Key.currentContext
+                              ?.findRenderObject() as RenderRepaintBoundary?;
+                          final image = await boundary?.toImage(pixelRatio: 8);
+                          final byteData = await image?.toByteData(
+                              format: ImageByteFormat.png);
+                          final imageBytes = byteData?.buffer.asUint8List();
+
+                          if (imageBytes != null) {
+                            final directory =
+                                await getApplicationDocumentsDirectory();
+                            final imagePath = await File(
+                                    '${directory.path}/container_image.png')
+                                .create();
+                            await imagePath.writeAsBytes(imageBytes);
+                            ShareExtend.share(imagePath.path, "file");
+                          }
                         },
                         icon: Icon(Icons.ios_share),
                       ),
@@ -175,7 +199,8 @@ class _DetailPageState extends State<DetailPage> {
                       TextButton(
                         onPressed: () {
                           setState(() {
-                            variables.propertyvisibility = !variables.propertyvisibility;
+                            variables.propertyvisibility =
+                                !variables.propertyvisibility;
                           });
                         },
                         style: ButtonStyle(
@@ -183,7 +208,9 @@ class _DetailPageState extends State<DetailPage> {
                               InkSparkle.constantTurbulenceSeedSplashFactory,
                         ),
                         child: Text(
-                          (variables.propertyvisibility == true) ? "Hide" : "Show",
+                          (variables.propertyvisibility == true)
+                              ? "Hide"
+                              : "Show",
                           style: TextStyle(
                               color: Colors.redAccent,
                               fontSize: 20,
@@ -221,7 +248,9 @@ class _DetailPageState extends State<DetailPage> {
                                     child: Icon(
                                       Icons.location_disabled,
                                       color: Colors.redAccent,
-                                      size: (variables.disabledcolor == true) ? 30 : 20,
+                                      size: (variables.disabledcolor == true)
+                                          ? 30
+                                          : 20,
                                     ),
                                   ),
                                 ),
@@ -414,18 +443,20 @@ class _DetailPageState extends State<DetailPage> {
                                                 IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      variables. borderproperty =
-                                                          !variables. borderproperty;
+                                                      variables.borderproperty =
+                                                          !variables
+                                                              .borderproperty;
                                                     });
                                                   },
-                                                  icon: Icon((variables. borderproperty)
-                                                      ? Icons.visibility_off
-                                                      : Icons.visibility),
+                                                  icon: Icon(
+                                                      (variables.borderproperty)
+                                                          ? Icons.visibility_off
+                                                          : Icons.visibility),
                                                 )
                                               ],
                                             ),
                                             Visibility(
-                                              visible: variables. borderproperty,
+                                              visible: variables.borderproperty,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -446,9 +477,11 @@ class _DetailPageState extends State<DetailPage> {
                                                         GestureDetector(
                                                           onTap: () {
                                                             setState(() {
-                                                              variables.disableframe =
+                                                              variables
+                                                                      .disableframe =
                                                                   true;
-                                                              variables.framecolor =
+                                                              variables
+                                                                      .framecolor =
                                                                   Colors.black;
                                                             });
                                                           },
@@ -479,9 +512,11 @@ class _DetailPageState extends State<DetailPage> {
                                                               GestureDetector(
                                                             onTap: () {
                                                               setState(() {
-                                                                variables.disableframe =
+                                                                variables
+                                                                        .disableframe =
                                                                     false;
-                                                                variables.framecolor = e;
+                                                                variables
+                                                                    .framecolor = e;
                                                               });
                                                             },
                                                             child: Padding(
@@ -617,12 +652,16 @@ class _DetailPageState extends State<DetailPage> {
                                             variables.topstart = 60;
                                             variables.topend = 60;
                                             variables.bottomstart = 0;
-                                           variables. bottomend = 0;
-                                            variables. frameno1 = true;
-                                            if (variables. frameno1 = true) {
-                                              variables. frameno2 = variables. frameno7 = variables. frameno6 =
-                                                  variables. frameno5 = variables. frameno4 =
-                                                      variables. frameno3 = false;
+                                            variables.bottomend = 0;
+                                            variables.frameno1 = true;
+                                            if (variables.frameno1 = true) {
+                                              variables.frameno2 = variables
+                                                  .frameno7 = variables
+                                                      .frameno6 =
+                                                  variables.frameno5 =
+                                                      variables.frameno4 =
+                                                          variables.frameno3 =
+                                                              false;
                                             }
                                           });
                                         },
@@ -630,15 +669,17 @@ class _DetailPageState extends State<DetailPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
                                             child: Center(
-                                                child: (variables. frameno1 == true)
-                                                    ? Icon(Icons.done)
-                                                    : null),
+                                                child:
+                                                    (variables.frameno1 == true)
+                                                        ? Icon(Icons.done)
+                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadiusDirectional.only(topEnd:
+                                                  BorderRadiusDirectional.only(
+                                                      topEnd:
                                                           Radius.circular(20),
                                                       topStart:
                                                           Radius.circular(20)),
@@ -655,12 +696,16 @@ class _DetailPageState extends State<DetailPage> {
                                             variables.topstart = 60;
                                             variables.topend = 60;
                                             variables.bottomstart = 60;
-                                           variables. bottomend = 60;
-                                            variables. frameno2 = true;
-                                            if (variables. frameno2 = true) {
-                                              variables. frameno1 = variables. frameno7 = variables. frameno6 =
-                                                  variables. frameno5 = variables. frameno4 =
-                                                      variables. frameno3 = false;
+                                            variables.bottomend = 60;
+                                            variables.frameno2 = true;
+                                            if (variables.frameno2 = true) {
+                                              variables.frameno1 = variables
+                                                  .frameno7 = variables
+                                                      .frameno6 =
+                                                  variables.frameno5 =
+                                                      variables.frameno4 =
+                                                          variables.frameno3 =
+                                                              false;
                                             }
                                           });
                                         },
@@ -668,9 +713,10 @@ class _DetailPageState extends State<DetailPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
                                             child: Center(
-                                                child: (variables. frameno2 == true)
-                                                    ? Icon(Icons.done)
-                                                    : null),
+                                                child:
+                                                    (variables.frameno2 == true)
+                                                        ? Icon(Icons.done)
+                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
@@ -689,12 +735,16 @@ class _DetailPageState extends State<DetailPage> {
                                             variables.topstart = 0;
                                             variables.topend = 0;
                                             variables.bottomstart = 60;
-                                           variables. bottomend = 60;
-                                            variables. frameno3 = true;
-                                            if (variables. frameno3 = true) {
-                                              variables. frameno2 = variables. frameno7 = variables. frameno6 =
-                                                  variables. frameno5 = variables. frameno4 =
-                                                      variables. frameno1 = false;
+                                            variables.bottomend = 60;
+                                            variables.frameno3 = true;
+                                            if (variables.frameno3 = true) {
+                                              variables.frameno2 = variables
+                                                  .frameno7 = variables
+                                                      .frameno6 =
+                                                  variables.frameno5 =
+                                                      variables.frameno4 =
+                                                          variables.frameno1 =
+                                                              false;
                                             }
                                           });
                                         },
@@ -702,18 +752,19 @@ class _DetailPageState extends State<DetailPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
                                             child: Center(
-                                                child: (variables. frameno3 == true)
-                                                    ? Icon(Icons.done)
-                                                    : null),
+                                                child:
+                                                    (variables.frameno3 == true)
+                                                        ? Icon(Icons.done)
+                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
                                                   BorderRadiusDirectional.only(
-                                                     bottomEnd:
+                                                      bottomEnd:
                                                           Radius.circular(20),
-                                                     bottomStart:
+                                                      bottomStart:
                                                           Radius.circular(20)),
                                               border: Border.all(
                                                   color: Colors.black,
@@ -728,12 +779,16 @@ class _DetailPageState extends State<DetailPage> {
                                             variables.topstart = 60;
                                             variables.topend = 0;
                                             variables.bottomstart = 0;
-                                           variables. bottomend = 60;
-                                            variables. frameno4 = true;
-                                            if (variables. frameno4 = true) {
-                                              variables. frameno2 = variables. frameno7 = variables. frameno6 =
-                                                  variables. frameno5 = variables. frameno1 =
-                                                      variables. frameno3 = false;
+                                            variables.bottomend = 60;
+                                            variables.frameno4 = true;
+                                            if (variables.frameno4 = true) {
+                                              variables.frameno2 = variables
+                                                  .frameno7 = variables
+                                                      .frameno6 =
+                                                  variables.frameno5 =
+                                                      variables.frameno1 =
+                                                          variables.frameno3 =
+                                                              false;
                                             }
                                           });
                                         },
@@ -741,16 +796,18 @@ class _DetailPageState extends State<DetailPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
                                             child: Center(
-                                                child: (variables. frameno4 == true)
-                                                    ? Icon(Icons.done)
-                                                    : null),
+                                                child:
+                                                    (variables.frameno4 == true)
+                                                        ? Icon(Icons.done)
+                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
                                                   BorderRadiusDirectional.only(
-                                                bottomStart: Radius.circular(20),
+                                                bottomStart:
+                                                    Radius.circular(20),
                                                 bottomEnd: Radius.circular(20),
                                               ),
                                               border: Border.all(
@@ -766,12 +823,16 @@ class _DetailPageState extends State<DetailPage> {
                                             variables.topstart = 60;
                                             variables.topend = 0;
                                             variables.bottomstart = 60;
-                                           variables. bottomend = 0;
-                                            variables. frameno5 = true;
-                                            if (variables. frameno5 = true) {
-                                              variables. frameno2 = variables. frameno7 = variables. frameno6 =
-                                                  variables. frameno1 = variables. frameno4 =
-                                                      variables. frameno3 = false;
+                                            variables.bottomend = 0;
+                                            variables.frameno5 = true;
+                                            if (variables.frameno5 = true) {
+                                              variables.frameno2 = variables
+                                                  .frameno7 = variables
+                                                      .frameno6 =
+                                                  variables.frameno1 =
+                                                      variables.frameno4 =
+                                                          variables.frameno3 =
+                                                              false;
                                             }
                                           });
                                         },
@@ -779,9 +840,10 @@ class _DetailPageState extends State<DetailPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
                                             child: Center(
-                                                child: (variables. frameno5 == true)
-                                                    ? Icon(Icons.done)
-                                                    : null),
+                                                child:
+                                                    (variables.frameno5 == true)
+                                                        ? Icon(Icons.done)
+                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
@@ -805,12 +867,16 @@ class _DetailPageState extends State<DetailPage> {
                                             variables.topstart = 0;
                                             variables.topend = 60;
                                             variables.bottomstart = 60;
-                                           variables. bottomend = 0;
-                                            variables. frameno6 = true;
-                                            if (variables. frameno6 = true) {
-                                              variables. frameno2 = variables. frameno7 = variables. frameno1 =
-                                                  variables. frameno5 = variables. frameno4 =
-                                                      variables. frameno3 = false;
+                                            variables.bottomend = 0;
+                                            variables.frameno6 = true;
+                                            if (variables.frameno6 = true) {
+                                              variables.frameno2 = variables
+                                                  .frameno7 = variables
+                                                      .frameno1 =
+                                                  variables.frameno5 =
+                                                      variables.frameno4 =
+                                                          variables.frameno3 =
+                                                              false;
                                             }
                                           });
                                         },
@@ -818,9 +884,10 @@ class _DetailPageState extends State<DetailPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
                                             child: Center(
-                                                child: (variables. frameno6 == true)
-                                                    ? Icon(Icons.done)
-                                                    : null),
+                                                child:
+                                                    (variables.frameno6 == true)
+                                                        ? Icon(Icons.done)
+                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
@@ -844,12 +911,16 @@ class _DetailPageState extends State<DetailPage> {
                                             variables.topstart = 0;
                                             variables.topend = 60;
                                             variables.bottomstart = 0;
-                                           variables. bottomend = 60;
-                                            variables. frameno7 = true;
-                                            if (variables. frameno7 = true) {
-                                              variables. frameno2 = variables. frameno1 = variables. frameno6 =
-                                                  variables. frameno5 = variables. frameno4 =
-                                                      variables. frameno3 = false;
+                                            variables.bottomend = 60;
+                                            variables.frameno7 = true;
+                                            if (variables.frameno7 = true) {
+                                              variables.frameno2 = variables
+                                                  .frameno1 = variables
+                                                      .frameno6 =
+                                                  variables.frameno5 =
+                                                      variables.frameno4 =
+                                                          variables.frameno3 =
+                                                              false;
                                             }
                                           });
                                         },
@@ -857,9 +928,10 @@ class _DetailPageState extends State<DetailPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
                                             child: Center(
-                                                child: (variables. frameno7 == true)
-                                                    ? Icon(Icons.done)
-                                                    : null),
+                                                child:
+                                                    (variables.frameno7 == true)
+                                                        ? Icon(Icons.done)
+                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
