@@ -11,7 +11,7 @@ class Festival {
         required this.country,
         required this.festival,
         required this.description,
-         this.image,
+        this.image,
       });
 
   factory Festival.fromMap({required Map data}) {

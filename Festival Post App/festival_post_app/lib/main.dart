@@ -1,13 +1,14 @@
 import 'package:festival_post_app/utils/ui_helpers/myroutes.dart';
+import 'package:festival_post_app/views/screens/country_festival.dart';
 import 'package:festival_post_app/views/screens/homepage.dart';
 import 'package:flutter/material.dart';
 
 void main(){
-  runApp(const FestivalApp());
+  runApp(const MyApp());
 }
 
-class FestivalApp extends StatelessWidget {
-  const FestivalApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class FestivalApp extends StatelessWidget {
       ),
       routes: {
         MyRoutes.homepage : (context) => HomePage(),
+        MyRoutes.countrydetailpage : (context) => CountryFestivalDetailPage(),
       },
     );
   }
