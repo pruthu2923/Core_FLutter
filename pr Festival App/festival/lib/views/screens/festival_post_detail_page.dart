@@ -1,15 +1,12 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:quotes_app/utils/frames/1st.dart';
-import 'package:quotes_app/utils/modalpage.dart';
-import 'package:quotes_app/utils/routes_utils.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:quotes_app/utils/variables.dart';
 import 'package:share_extend/share_extend.dart';
+import '../../utils/modalpage.dart';
+import '../../utils/variables.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -73,7 +70,7 @@ class _DetailPageState extends State<DetailPage> {
                 },
               );
             },
-            icon: Icon(Icons.refresh_rounded),
+            icon: const Icon(Icons.refresh_rounded),
           )
         ],
       ),
@@ -87,7 +84,7 @@ class _DetailPageState extends State<DetailPage> {
                 child: RepaintBoundary(
                   key: _Key,
                   child: Container(
-                    padding: EdgeInsets.all(30),
+                    padding: const EdgeInsets.all(30),
                     height: h * 0.4,
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -158,7 +155,7 @@ class _DetailPageState extends State<DetailPage> {
                                     "${getfestival.festival} \n\n ${getfestival.description}I got This FestivalPostTexts From abc Festival App"));
                           });
                         },
-                        icon: Icon(Icons.copy_all_outlined),
+                        icon: const Icon(Icons.copy_all_outlined),
                       ),
                       IconButton(
                         onPressed: () async {
@@ -179,14 +176,14 @@ class _DetailPageState extends State<DetailPage> {
                             ShareExtend.share(imagePath.path, "file");
                           }
                         },
-                        icon: Icon(Icons.ios_share),
+                        icon: const Icon(Icons.ios_share),
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: SelectableText(
                           "Editing Properties",
                           style: TextStyle(
@@ -195,7 +192,7 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       TextButton(
                         onPressed: () {
                           setState(() {
@@ -203,7 +200,7 @@ class _DetailPageState extends State<DetailPage> {
                                 !variables.propertyvisibility;
                           });
                         },
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                           splashFactory:
                               InkSparkle.constantTurbulenceSeedSplashFactory,
                         ),
@@ -211,7 +208,7 @@ class _DetailPageState extends State<DetailPage> {
                           (variables.propertyvisibility == true)
                               ? "Hide"
                               : "Show",
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.redAccent,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
@@ -222,7 +219,7 @@ class _DetailPageState extends State<DetailPage> {
                   Visibility(
                     visible: variables.propertyvisibility,
                     child: Padding(
-                      padding: EdgeInsetsDirectional.only(start: 8),
+                      padding: const EdgeInsetsDirectional.only(start: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -277,7 +274,7 @@ class _DetailPageState extends State<DetailPage> {
                           SizedBox(
                             height: h * 0.02,
                           ),
-                          Text(
+                          const Text(
                             "Font Boldness",
                             style: TextStyle(
                                 color: Colors.black,
@@ -315,7 +312,7 @@ class _DetailPageState extends State<DetailPage> {
                           SizedBox(
                             height: h * 0.02,
                           ),
-                          Text(
+                          const Text(
                             "Font Size",
                             style: TextStyle(
                                 color: Colors.black,
@@ -327,7 +324,7 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                           Row(
                             children: [
-                              Text("${fontsize}"),
+                              Text("$fontsize"),
                               Expanded(
                                 child: Slider(
                                   // focusNode: FocusNode(debugLabel: "done"),
@@ -352,7 +349,7 @@ class _DetailPageState extends State<DetailPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 "Edit Frame",
                                 style: TextStyle(
                                     color: Colors.black,
@@ -365,7 +362,7 @@ class _DetailPageState extends State<DetailPage> {
                                     allprop = true;
                                   });
                                 },
-                                icon: Icon(Icons.edit),
+                                icon: const Icon(Icons.edit),
                               ),
                             ],
                           ),
@@ -377,7 +374,7 @@ class _DetailPageState extends State<DetailPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Edit Border",
                                       style: TextStyle(
                                           color: Colors.black,
@@ -402,8 +399,9 @@ class _DetailPageState extends State<DetailPage> {
                                       RadioListTile(
                                           controlAffinity:
                                               ListTileControlAffinity.leading,
-                                          title: Text("Yes"),
-                                          subtitle: Text("Editable Properties"),
+                                          title: const Text("Yes"),
+                                          subtitle:
+                                              const Text("Editable Properties"),
                                           value: "Yes",
                                           groupValue: BorderVisibility,
                                           onChanged: (val) {
@@ -414,8 +412,9 @@ class _DetailPageState extends State<DetailPage> {
                                       RadioListTile(
                                           controlAffinity:
                                               ListTileControlAffinity.leading,
-                                          title: Text("No"),
-                                          subtitle: Text("No such Properties"),
+                                          title: const Text("No"),
+                                          subtitle:
+                                              const Text("No such Properties"),
                                           value: "No",
                                           groupValue: BorderVisibility,
                                           onChanged: (val) {
@@ -432,7 +431,7 @@ class _DetailPageState extends State<DetailPage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   "Border Properties",
                                                   style: TextStyle(
                                                       color: Colors.black,
@@ -461,7 +460,7 @@ class _DetailPageState extends State<DetailPage> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "Choose Colour",
                                                     style:
                                                         TextStyle(fontSize: 18),
@@ -500,7 +499,8 @@ class _DetailPageState extends State<DetailPage> {
                                                                     borderRadius:
                                                                         BorderRadius.circular(
                                                                             30)),
-                                                                child: Icon(
+                                                                child:
+                                                                    const Icon(
                                                                   Icons
                                                                       .stop_circle_outlined,
                                                                   size: 30,
@@ -564,7 +564,7 @@ class _DetailPageState extends State<DetailPage> {
                                                   SizedBox(
                                                     height: h * 0.01,
                                                   ),
-                                                  Text(
+                                                  const Text(
                                                     "Border Thickness",
                                                     style:
                                                         TextStyle(fontSize: 18),
@@ -579,7 +579,8 @@ class _DetailPageState extends State<DetailPage> {
                                                     children: [
                                                       Container(
                                                         padding:
-                                                            EdgeInsets.all(10),
+                                                            const EdgeInsets
+                                                                .all(10),
                                                         child: Text(
                                                             thick.toString()),
                                                       ),
@@ -595,7 +596,7 @@ class _DetailPageState extends State<DetailPage> {
                                                                     ScaffoldMessenger.of(
                                                                             context)
                                                                         .showSnackBar(
-                                                                      SnackBar(
+                                                                      const SnackBar(
                                                                         content:
                                                                             Text("Maximum Limit Reached"),
                                                                         duration:
@@ -605,7 +606,7 @@ class _DetailPageState extends State<DetailPage> {
                                                                   }
                                                                 });
                                                               },
-                                                              icon: Icon(
+                                                              icon: const Icon(
                                                                   Icons.add)),
                                                           IconButton(
                                                               onPressed: () {
@@ -617,7 +618,7 @@ class _DetailPageState extends State<DetailPage> {
                                                                     ScaffoldMessenger.of(
                                                                             context)
                                                                         .showSnackBar(
-                                                                      SnackBar(
+                                                                      const SnackBar(
                                                                         content:
                                                                             Text("Minimum Limit Reached"),
                                                                         duration:
@@ -627,8 +628,9 @@ class _DetailPageState extends State<DetailPage> {
                                                                   }
                                                                 });
                                                               },
-                                                              icon: Icon(Icons
-                                                                  .remove)),
+                                                              icon: const Icon(
+                                                                  Icons
+                                                                      .remove)),
                                                         ],
                                                       ),
                                                     ],
@@ -668,17 +670,13 @@ class _DetailPageState extends State<DetailPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            child: Center(
-                                                child:
-                                                    (variables.frameno1 == true)
-                                                        ? Icon(Icons.done)
-                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadiusDirectional.only(
+                                                  const BorderRadiusDirectional
+                                                          .only(
                                                       topEnd:
                                                           Radius.circular(20),
                                                       topStart:
@@ -687,6 +685,11 @@ class _DetailPageState extends State<DetailPage> {
                                                   color: Colors.black,
                                                   width: 2),
                                             ),
+                                            child: Center(
+                                                child:
+                                                    (variables.frameno1 == true)
+                                                        ? const Icon(Icons.done)
+                                                        : null),
                                           ),
                                         ),
                                       ),
@@ -712,11 +715,6 @@ class _DetailPageState extends State<DetailPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            child: Center(
-                                                child:
-                                                    (variables.frameno2 == true)
-                                                        ? Icon(Icons.done)
-                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
@@ -726,6 +724,11 @@ class _DetailPageState extends State<DetailPage> {
                                                 border: Border.all(
                                                     color: Colors.black,
                                                     width: 2)),
+                                            child: Center(
+                                                child:
+                                                    (variables.frameno2 == true)
+                                                        ? const Icon(Icons.done)
+                                                        : null),
                                           ),
                                         ),
                                       ),
@@ -751,17 +754,13 @@ class _DetailPageState extends State<DetailPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            child: Center(
-                                                child:
-                                                    (variables.frameno3 == true)
-                                                        ? Icon(Icons.done)
-                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadiusDirectional.only(
+                                                  const BorderRadiusDirectional
+                                                          .only(
                                                       bottomEnd:
                                                           Radius.circular(20),
                                                       bottomStart:
@@ -770,6 +769,11 @@ class _DetailPageState extends State<DetailPage> {
                                                   color: Colors.black,
                                                   width: 2),
                                             ),
+                                            child: Center(
+                                                child:
+                                                    (variables.frameno3 == true)
+                                                        ? const Icon(Icons.done)
+                                                        : null),
                                           ),
                                         ),
                                       ),
@@ -795,17 +799,13 @@ class _DetailPageState extends State<DetailPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            child: Center(
-                                                child:
-                                                    (variables.frameno4 == true)
-                                                        ? Icon(Icons.done)
-                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadiusDirectional.only(
+                                                  const BorderRadiusDirectional
+                                                      .only(
                                                 bottomStart:
                                                     Radius.circular(20),
                                                 bottomEnd: Radius.circular(20),
@@ -814,6 +814,11 @@ class _DetailPageState extends State<DetailPage> {
                                                   color: Colors.black,
                                                   width: 2),
                                             ),
+                                            child: Center(
+                                                child:
+                                                    (variables.frameno4 == true)
+                                                        ? const Icon(Icons.done)
+                                                        : null),
                                           ),
                                         ),
                                       ),
@@ -839,17 +844,13 @@ class _DetailPageState extends State<DetailPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            child: Center(
-                                                child:
-                                                    (variables.frameno5 == true)
-                                                        ? Icon(Icons.done)
-                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadiusDirectional.only(
+                                                  const BorderRadiusDirectional
+                                                          .only(
                                                       topStart:
                                                           Radius.circular(20),
                                                       bottomStart:
@@ -858,6 +859,11 @@ class _DetailPageState extends State<DetailPage> {
                                                   color: Colors.black,
                                                   width: 2),
                                             ),
+                                            child: Center(
+                                                child:
+                                                    (variables.frameno5 == true)
+                                                        ? const Icon(Icons.done)
+                                                        : null),
                                           ),
                                         ),
                                       ),
@@ -883,17 +889,13 @@ class _DetailPageState extends State<DetailPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            child: Center(
-                                                child:
-                                                    (variables.frameno6 == true)
-                                                        ? Icon(Icons.done)
-                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadiusDirectional.only(
+                                                  const BorderRadiusDirectional
+                                                          .only(
                                                       bottomStart:
                                                           Radius.circular(20),
                                                       bottomEnd:
@@ -902,6 +904,11 @@ class _DetailPageState extends State<DetailPage> {
                                                   color: Colors.black,
                                                   width: 2),
                                             ),
+                                            child: Center(
+                                                child:
+                                                    (variables.frameno6 == true)
+                                                        ? const Icon(Icons.done)
+                                                        : null),
                                           ),
                                         ),
                                       ),
@@ -927,17 +934,13 @@ class _DetailPageState extends State<DetailPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            child: Center(
-                                                child:
-                                                    (variables.frameno7 == true)
-                                                        ? Icon(Icons.done)
-                                                        : null),
                                             height: h * 0.1,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  BorderRadiusDirectional.only(
+                                                  const BorderRadiusDirectional
+                                                          .only(
                                                       topEnd:
                                                           Radius.circular(20),
                                                       bottomEnd:
@@ -946,6 +949,11 @@ class _DetailPageState extends State<DetailPage> {
                                                   color: Colors.black,
                                                   width: 2),
                                             ),
+                                            child: Center(
+                                                child:
+                                                    (variables.frameno7 == true)
+                                                        ? const Icon(Icons.done)
+                                                        : null),
                                           ),
                                         ),
                                       ),

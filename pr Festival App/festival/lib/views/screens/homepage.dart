@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -33,17 +32,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(decoration: BoxDecoration(
-          image: DecorationImage(image: NetworkImage('https://previews.123rf.com/images/amonwipu1741/amonwipu17411810/amonwipu1741181000255/127292431-diwali-or-deepavali-the-festival-of-lights-india-with-gold-diya-patterned-and-crystals-on-paper.jpg'),fit: BoxFit.values[3]),
-          borderRadius: BorderRadiusDirectional.only(bottomStart: Radius.circular(80),bottomEnd: Radius.circular(80))
+          image: DecorationImage(image: const NetworkImage('https://previews.123rf.com/images/amonwipu1741/amonwipu17411810/amonwipu1741181000255/127292431-diwali-or-deepavali-the-festival-of-lights-india-with-gold-diya-patterned-and-crystals-on-paper.jpg'),fit: BoxFit.values[3]),
+          borderRadius: const BorderRadiusDirectional.only(bottomStart: Radius.circular(80),bottomEnd: Radius.circular(80))
         ) , ),
         // centerTitle: true,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(80),
                 bottomRight: Radius.circular(80))),
-        bottom: PreferredSize(
+        bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(100),
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20),
               // child: Text(
               //   (drawervisibility) ? countrySelection : "No Country Selected",
               //   style: TextStyle(
@@ -51,15 +51,14 @@ class _HomePageState extends State<HomePage> {
               //       fontWeight: FontWeight.bold,
               //       fontSize: 18),
               // ),
-            ),
-            preferredSize: Size.fromHeight(100)),
+            )),
         title: Row(
           children: [
             SizedBox(
               width: w*0.04,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 "HomePage",
                 style: TextStyle(color: Colors.white , fontWeight: FontWeight.bold, fontSize: 24),
@@ -116,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         child: Ink(
                           child: InkWell(
                             splashColor: Colors.black,
@@ -136,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                               radius: 40,
                               backgroundColor: Colors.white,
                               child: CircleAvatar(
-                                backgroundImage: NetworkImage(
+                                backgroundImage: const NetworkImage(
                                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsloDZ5O0zSh9T5dPrHvIaWE7rIAGpBS43WQ&usqp=CAU'),
                                 foregroundImage:
                                     (Universal.profileImage == null)
@@ -148,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
@@ -173,14 +172,14 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.white,
                     thickness: 2,
                   ),
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               color: Colors.white,
               thickness: 2,
             ),
@@ -201,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                         fabvisibility = true;
                       });
                     },
-                    child: Text(
+                    child: const Text(
                       "Show Countries",
                       style: TextStyle(
                           color: Colors.black,
@@ -216,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                     visible: drawervisibility,
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -263,7 +262,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Stack(
           children: [
             SingleChildScrollView(
@@ -287,7 +286,7 @@ class _HomePageState extends State<HomePage> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         // spreadRadius: 2,
                                         blurRadius: 5,
@@ -299,8 +298,8 @@ class _HomePageState extends State<HomePage> {
                                             '${allFestivals[index].image}'),
                                         fit: BoxFit.fill,
                                         opacity: 2)),
-                                padding: EdgeInsets.all(10),
-                                child: Center(
+                                padding: const EdgeInsets.all(10),
+                                child: const Center(
                                   // child: Text(
                                   //   allFestivals[index].festival,
                                   //   maxLines: 1,
@@ -327,7 +326,7 @@ class _HomePageState extends State<HomePage> {
                   height: double.infinity,
                   width: double.infinity,
                   color: Colors.white,
-                  child: Center(
+                  child: const Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

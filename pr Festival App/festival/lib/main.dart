@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:quotes_app/utils/routes_utils.dart';
-import 'package:quotes_app/views/screens/homepage.dart';
-import 'package:quotes_app/views/screens/quote_detail_page.dart';
+import '../../utils/routes_utils.dart';
+import '../../views/screens/homepage.dart';
+import '../../views/screens/festival_post_detail_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        MyRoutes.homepage: (context) => HomePage(),
-        MyRoutes.detailpage: (context) => DetailPage(),
+        MyRoutes.homepage: (context) => const HomePage(),
+        MyRoutes.detailpage: (context) => const DetailPage(),
       },
     );
   }
